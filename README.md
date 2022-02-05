@@ -1,5 +1,7 @@
 # Observações:
 
+Versão da Unity em que o setup foi feito: 2021.1.14f1
+
 Foram feitas mudanças em:
 
 -   Quais camadas (layers) colidem em ProjectSettings -> Physics2D
