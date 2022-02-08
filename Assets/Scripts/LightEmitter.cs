@@ -5,7 +5,12 @@ public class LightEmitter : MonoBehaviour {
 
     //Variáveis públicas podem ser acessadas por outras classes e também podem ser editadas pelo Inspector da engine
     public GameObject LightParticlePrefab;
-    public float emitterPower = 10f;
+
+    private float particleSpeed;
+
+    //Chamada pela engine quando o script é inicializado
+    public void Awake() {
+    }
 
     //Update() é uma função que a engine chama todo frame
     private void Update() {
@@ -16,14 +21,15 @@ public class LightEmitter : MonoBehaviour {
     }
 
     private void EmitLightParticle() {
-        
+
+        particleSpeed = LightParticlePrefab.GetComponent<LightParticle>().speed;
         //Instanciando um prefab (pense como uma classe, mas que existe no jogo) usando a 
         //posição do objeto (transform.position --> é derivada do monobehaviour) ao qual esse script (LightEmitter) está acoplado
-        GameObject lightParticle = Instantiate(LightParticlePrefab, transform.position, Quaternion.identity);
+        GameObject lightParticle = Instantiate(LightParticlePrefab, transform.position, transform.rotation);
         
         //Usando a referência do prefab, pegamos o Rigidbody2D (que é apenas um script que está acoplado ao prefab) e definimos sua
         //velocidade, usando a rotação do LightEmitter (transform.up (um vetor que aponta para cima do lightEmitter)) e multiplicamos
         //pela força que podemos definir no editor ou no script
-        lightParticle.GetComponent<Rigidbody2D>().velocity = transform.up * emitterPower;
+        lightParticle.GetComponent<Rigidbody2D>().velocity = transform.up * particleSpeed;
     }
 }
