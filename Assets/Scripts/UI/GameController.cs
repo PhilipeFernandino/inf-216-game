@@ -10,9 +10,11 @@ public class GameController : MonoBehaviour {
     private bool isDragging;
 
     public void PlaceReflector() {
-        availableReflectors--;
-        isDragging = true;
-        draggingReflector = Instantiate(reflectorPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+        if (availableReflectors > 0) {
+            availableReflectors--;
+            isDragging = true;
+            draggingReflector = Instantiate(reflectorPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+        }
     }
     
     public void Update() {
