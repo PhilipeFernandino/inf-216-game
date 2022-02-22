@@ -15,7 +15,7 @@ public class LightEmitter : MonoBehaviour {
     //Update() é uma função que a engine chama todo frame
     private void Update() {
         //Se for detectado um clique com o botão direito
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetButtonDown("Jump")) {
             EmitLightParticle();
         }
     }
