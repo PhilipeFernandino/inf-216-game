@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &220081122
 AudioSource:
   m_ObjectHideFlags: 0
@@ -304,6 +304,10 @@ PrefabInstance:
     - target: {fileID: 7972831869906716111, guid: 2b69ffbb522d2694eb58ec45d3b8815a, type: 3}
       propertyPath: m_SortingOrder
       value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7972831869958821207, guid: 2b69ffbb522d2694eb58ec45d3b8815a, type: 3}
+      propertyPath: reflectors
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7972831869958821207, guid: 2b69ffbb522d2694eb58ec45d3b8815a, type: 3}
       propertyPath: availableReflectors
