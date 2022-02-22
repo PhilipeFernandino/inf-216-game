@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour {
 
     private GameObject draggingReflector; 
     private bool isDragging;
-
+    
     public void PlaceReflector() {
         if (availableReflectors > 0) {
             availableReflectors--;
