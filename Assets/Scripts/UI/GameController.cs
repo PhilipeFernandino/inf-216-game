@@ -1,11 +1,14 @@
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
+    
     public int reflectors;
     public GameObject reflectorPrefab;
-    
+    public float objectRotationSpeed;
+
     private bool isObjectDraggable;
     private bool isObjectSelected;
+    private bool isObjectRotable;
     private GameObject selectedObject; 
     private int availableReflectors;
     
@@ -51,22 +54,33 @@ public class GameController : MonoBehaviour {
                         selectedObject = hit.collider.transform.parent.gameObject;
                         isObjectDraggable = true;
                         isObjectSelected = true;
+                        isObjectRotable = true;
                     } 
                     
                     else if (GO.CompareTag("LightEmitter")) {
                         selectedObject = hit.collider.gameObject;
                         isObjectDraggable = false;
                         isObjectSelected = true;
+                        isObjectRotable = true;
                     }
 
                 }
             }
         }
         
-        if (isObjectSelected && isObjectDraggable) {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0;
-            selectedObject.transform.position = pos;
+        if (isObjectSelected) {
+            if (isObjectDraggable) {
+                Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                selectedObject.transform.position = pos;
+            }
+            if (isObjectRotable) {
+                int rotateDir = 0;
+                float rotationSpeed = objectRotationSpeed;
+                if (Input.GetKey(KeyCode.LeftShift)) rotationSpeed /= 4;
+                if (Input.GetKey(KeyCode.Q)) rotateDir = -1;
+                else if (Input.GetKey(KeyCode.E)) rotateDir = 1;
+                selectedObject.transform.Rotate(rotationSpeed * Vector3.forward * rotateDir);
+            }
         }
     }
 }
