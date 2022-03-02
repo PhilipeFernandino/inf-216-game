@@ -22,27 +22,26 @@ public class LightParticle : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log("Colidiu com" + other.gameObject.tag);
-        GameObject otherGO = other.gameObject;
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (justCollided || !rb.isKinematic) return;
 
+        Debug.Log("Colidiu com: " + other.gameObject.tag);
+        
+        GameObject otherGO = other.gameObject;
+        
         if (otherGO.CompareTag("Obstacle")) {
             Destroy(gameObject);
             return;
         }
 
-
-        if (otherGO.CompareTag("LightReflector") && !justCollided) {
+        if (otherGO.CompareTag("LightReflector")) {
             justCollided = true;
             timerSinceLastCollision = 0f;
 
-            Rigidbody2D lightReflectorRigidbody = otherGO.GetComponent<Rigidbody2D>();
-            
-            Vector2 dir = Vector2.Reflect(rb.velocity, lightReflectorRigidbody.transform.up).normalized;
-            // float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Collider2D lightReflectorCollider = otherGO.GetComponent<Collider2D>();
+            Vector2 dir = Vector2.Reflect(rb.velocity, lightReflectorCollider.transform.up).normalized;
 
             rb.velocity = dir * keepVelocity;
-            // rb.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             return;
         }
     }

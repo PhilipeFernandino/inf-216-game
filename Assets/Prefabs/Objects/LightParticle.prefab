@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepVelocity: 0
-  timeBetweenCollisions: 0.2
+  timeBetweenCollisions: 0.05
 --- !u!96 &1302238132057094358
 TrailRenderer:
   serializedVersion: 2
@@ -173,13 +173,22 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.14284603
+        value: 0.10520935
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.024032593
+        inSlope: 0.0030354601
+        outSlope: 0.0030354601
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.26237655
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

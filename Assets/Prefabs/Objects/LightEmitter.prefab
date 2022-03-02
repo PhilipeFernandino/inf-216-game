@@ -96,5 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfb4851dae4b87240bdb18c7443647d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightParticlePrefab: {fileID: 4218329961800991648, guid: d05f449989033834cafba670a3303223, type: 3}
-  emitterPower: 1
+  LightParticlePrefab: {fileID: 4949514799234705793, guid: d05f449989033834cafba670a3303223, type: 3}
+  particleSpeed: 15
