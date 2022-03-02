@@ -2,12 +2,24 @@ using UnityEngine;
 
 public class LightParticle : MonoBehaviour {
 
-    public float speed;
-        
+    [HideInInspector]
+    public float keepVelocity;
+
+    public float timeBetweenCollisions;
+     
     private Rigidbody2D rb;
+    private float timerSinceLastCollision;
+    private bool justCollided;
 
     private void Start() {
         rb = gameObject.GetComponent<Rigidbody2D>();
+    }
+
+    private void Update() {
+        if (justCollided) {
+            if (timerSinceLastCollision > timeBetweenCollisions) justCollided = false;
+            timerSinceLastCollision += Time.deltaTime;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
@@ -20,14 +32,17 @@ public class LightParticle : MonoBehaviour {
         }
 
 
-        if (otherGO.CompareTag("LightReflector")) {
+        if (otherGO.CompareTag("LightReflector") && !justCollided) {
+            justCollided = true;
+            timerSinceLastCollision = 0f;
+
             Rigidbody2D lightReflectorRigidbody = otherGO.GetComponent<Rigidbody2D>();
             
-            Vector3 dir = Vector3.Reflect(rb.velocity, lightReflectorRigidbody.transform.up).normalized;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Vector2 dir = Vector2.Reflect(rb.velocity, lightReflectorRigidbody.transform.up).normalized;
+            // float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-            rb.velocity = dir * speed;
-            rb.transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            rb.velocity = dir * keepVelocity;
+            // rb.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             return;
         }
     }
