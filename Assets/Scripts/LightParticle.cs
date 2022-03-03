@@ -47,7 +47,7 @@ public class LightParticle : MonoBehaviour {
 
         GameObject otherGO = other.gameObject;
         if (otherGO.CompareTag("LightReflector")) {
-            justCollided = true;
+            if (timeBetweenCollisions > 0) justCollided = true;
             timerSinceLastCollision = 0f;
 
             Collider2D lightReflectorCollider = otherGO.GetComponent<Collider2D>();

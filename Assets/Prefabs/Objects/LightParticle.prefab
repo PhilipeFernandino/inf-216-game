@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepVelocity: 0
-  timeBetweenCollisions: 0.05
+  timeBetweenCollisions: 0
 --- !u!96 &1302238132057094358
 TrailRenderer:
   serializedVersion: 2

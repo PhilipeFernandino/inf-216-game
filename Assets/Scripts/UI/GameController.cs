@@ -52,14 +52,14 @@ public class GameController : MonoBehaviour {
                     //talvez fosse melhor se cada objeto decidisse como ele deseja se mover, chamando um metodo de interface para 
                     //o objeto selecionado 
                     if (GO.CompareTag("LightReflector")) {
-                        selectedObject = hit.collider.transform.parent.gameObject;
+                        selectedObject = GO;
                         isObjectDraggable = true;
                         isObjectSelected = true;
                         isObjectRotable = true;
                     } 
                     
                     else if (GO.CompareTag("LightEmitter")) {
-                        selectedObject = hit.collider.gameObject;
+                        selectedObject = GO;
                         isObjectDraggable = false;
                         isObjectSelected = true;
                         isObjectRotable = true;
