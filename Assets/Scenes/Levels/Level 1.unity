@@ -317,6 +317,10 @@ PrefabInstance:
       propertyPath: objectRotationSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7972831870580816888, guid: 2b69ffbb522d2694eb58ec45d3b8815a, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7972831870817738321, guid: 2b69ffbb522d2694eb58ec45d3b8815a, type: 3}
       propertyPath: m_BackGroundColor.b
       value: 0

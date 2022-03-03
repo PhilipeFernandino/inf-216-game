@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour {
             availableReflectors--;
             isObjectSelected = true;
             isObjectDraggable = true;
+            isObjectRotable = true;
             selectedObject = Instantiate(reflectorPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
         }
     }
