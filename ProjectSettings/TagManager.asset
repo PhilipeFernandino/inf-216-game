@@ -10,6 +10,7 @@ TagManager:
   - LightReflector
   - Obstacle
   - LightEmitter
+  - ReflectorButton
   layers:
   - Default
   - TransparentFX

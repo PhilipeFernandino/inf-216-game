@@ -1,10 +1,29 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+public class LightReceiver : MonoBehaviour
+{
 
-public class LightReceiver : MonoBehaviour {
-    private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("LightParticle")) {
-            Debug.Log("Sucesso"); 
+    [SerializeField] private ParticleSystem onWin;
+
+    private void Start()
+    {
+        onWin.Stop();
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("LightParticle"))
+        {
+            LevelData.won[LevelData.levelIndexLoaded] = true;
+            onWin.Play();
             Destroy(other.gameObject);
+            StartCoroutine(BackToMenu());
         }
+    }
+
+    private IEnumerator BackToMenu()
+    {
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }

@@ -1,80 +1,115 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+public class GameController : MonoBehaviour
+{
 
-public class GameController : MonoBehaviour {
-    
-    public int reflectors;
-    public GameObject reflectorPrefab;
     public float objectRotationSpeed;
+    public List<int> rotatedReflectors;
+    public GameObject reflectorPreafab;
 
     private bool isObjectDraggable;
     private bool isObjectSelected;
     private bool isObjectRotable;
-    private GameObject selectedObject; 
-    private int availableReflectors;
-    
-    private void Reset() {
-        GameObject[] GOs = GameObject.FindGameObjectsWithTag("LightReflector");
-        foreach(GameObject go in GOs) {
-            Destroy(go);
+
+
+    private GameObject[] reflectorButtons;
+    private GameObject selectedObject;
+    private void Start()
+    {
+        reflectorButtons = GameObject.FindGameObjectsWithTag("ReflectorButton");
+
+        for (int i = 0; i < reflectorButtons.Length; i++)
+        {
+            reflectorButtons[i].SetActive(false);
+
+            if (i < rotatedReflectors.Count)
+            {
+                reflectorButtons[i].SetActive(true);
+                int index = i;
+                int rotation = rotatedReflectors[i];
+                reflectorButtons[i].transform.eulerAngles = new Vector3(0, 0, rotation);
+                reflectorButtons[i].GetComponent<Button>().onClick.AddListener(delegate { PlaceReflector(index, rotation); });
+            }
         }
-        availableReflectors = reflectors;
     }
 
-    public void PlaceReflector() {
-        if (availableReflectors > 0) {
-            availableReflectors--;
-            isObjectSelected = true;
-            isObjectDraggable = true;
-            isObjectRotable = true;
-            selectedObject = Instantiate(reflectorPrefab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
-        }
-    }
-    
-    private void Start() {
-        availableReflectors = reflectors;
+    private void Reset()
+    {
+        GameObject[] lightReflectors = GameObject.FindGameObjectsWithTag("LightReflector");
+        foreach (GameObject lightReflector in lightReflectors)
+            Destroy(lightReflector);
+
+        for (int i = 0; i < rotatedReflectors.Count; i++)
+            reflectorButtons[i].SetActive(true);
     }
 
-    public void Update() {
-    
-        if (Input.GetKeyDown(KeyCode.R)) {
+    public void PlaceReflector(int index, int rotation)
+    {
+        reflectorButtons[index].SetActive(false);
+        isObjectSelected = true;
+        isObjectDraggable = true;
+        isObjectRotable = false;
+
+        selectedObject = Instantiate(reflectorPreafab, Camera.main.ScreenToWorldPoint(Input.mousePosition), Quaternion.identity);
+        selectedObject.transform.eulerAngles = new Vector3(0f, 0f, rotation);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+    }
+
+    private void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
             Reset();
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
             if (isObjectSelected) isObjectSelected = false;
-            else {
+            else
+            {
                 Vector2 mouseOnWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(mouseOnWorldPos, Vector2.zero);
-                
-                if (hit.collider != null) {
-                    
+
+                if (hit.collider != null)
+                {
+
                     GameObject GO = hit.collider.gameObject;
-                    //talvez fosse melhor se cada objeto decidisse como ele deseja se mover, chamando um metodo de interface para 
-                    //o objeto selecionado 
-                    if (GO.CompareTag("LightReflector")) {
+                    if (GO.CompareTag("LightReflector"))
+                    {
                         selectedObject = GO;
                         isObjectDraggable = true;
                         isObjectSelected = true;
-                        isObjectRotable = true;
-                    } 
-                    
-                    else if (GO.CompareTag("LightEmitter")) {
+                        isObjectRotable = false;
+                    }
+
+                    else if (GO.CompareTag("LightEmitter"))
+                    {
                         selectedObject = GO;
                         isObjectDraggable = false;
                         isObjectSelected = true;
-                        isObjectRotable = true;
+                        isObjectRotable = false;
                     }
 
                 }
             }
         }
-        
-        if (isObjectSelected) {
-            if (isObjectDraggable) {
+
+        if (isObjectSelected)
+        {
+            if (isObjectDraggable)
+            {
                 Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 selectedObject.transform.position = pos;
             }
-            if (isObjectRotable) {
+            if (isObjectRotable)
+            {
                 int rotateDir = 0;
                 float rotationSpeed = objectRotationSpeed;
                 if (Input.GetKey(KeyCode.LeftShift)) rotationSpeed /= 4;

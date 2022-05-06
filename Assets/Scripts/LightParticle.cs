@@ -1,52 +1,54 @@
 using UnityEngine;
 
-public class LightParticle : MonoBehaviour {
+public class LightParticle : MonoBehaviour
+{
 
     [HideInInspector]
     public float keepVelocity;
 
     public float timeBetweenCollisions;
-     
+
     private Rigidbody2D rb;
     private float timerSinceLastCollision;
     private bool justCollided;
 
-    private void Start() {
+    private void Start()
+    {
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    private void Update() {
-        if (justCollided) {
+    private void Update()
+    {
+        if (justCollided)
+        {
             if (timerSinceLastCollision > timeBetweenCollisions) justCollided = false;
             timerSinceLastCollision += Time.deltaTime;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-       
-        if (justCollided || !rb.isKinematic) return;
-        Debug.Log("Colidiu com: " + other.gameObject.tag);
-        
-        GameObject otherGO = other.gameObject;
-        
-        if (otherGO.CompareTag("Obstacle")) {
-            Destroy(gameObject);
-            return;
-        }
-    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
 
-    private void OnCollisionEnter2D(Collision2D other) {
-        
         if (justCollided || !rb.isKinematic) return;
         Debug.Log("Colidiu com: " + other.gameObject.tag);
-        
-        foreach (var contact in other.contacts) {
+
+        foreach (var contact in other.contacts)
+        {
             Debug.DrawRay(contact.point, contact.normal, Color.red, 2f);
             Debug.Log("Hit normal: " + contact.normal);
         }
 
+
+
         GameObject otherGO = other.gameObject;
-        if (otherGO.CompareTag("LightReflector")) {
+        if (otherGO.CompareTag("Obstacle"))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (otherGO.CompareTag("LightReflector"))
+        {
             if (timeBetweenCollisions > 0) justCollided = true;
             timerSinceLastCollision = 0f;
 
